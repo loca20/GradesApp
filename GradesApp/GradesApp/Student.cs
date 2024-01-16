@@ -24,8 +24,16 @@
         }
         public void AddGrade(double grade)
         {
-            float gradeAsFloat = (float)grade;
-            this.AddGrade(gradeAsFloat);
+            if (grade % 0.5 == 0)
+            {
+                float gradeAsFloat = (float)grade;
+                this.AddGrade(gradeAsFloat);
+            }
+            else
+            {
+                Console.WriteLine("Incorrect grade. You can only add a grade in multiples of 0.5 (for example: 4.5).");
+            }
+
         }
         public void AddGrade(string grade)
         {
