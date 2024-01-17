@@ -5,18 +5,23 @@ string selectPolish = "Proszę wybrać język: naciśnij 1 dla angielskiego lub 
 Console.WriteLine(selectEnglish);
 Console.WriteLine(selectPolish);
 
+string currentLanguage = "";
+string farewellEnglish = "See you soon!";
+string farewellPolish = "Do zobaczenia!";
+
 while (true)
 {
     var languageInput = Console.ReadLine();
     if (languageInput == "1")
     {
+        currentLanguage = "English";
         Console.WriteLine();
         Console.WriteLine("Welcome to the electronic journal!");
         Console.WriteLine("==================================");
         Console.WriteLine();
         Console.WriteLine("Add a grade:");
 
-        var student = new Student("Anna", "Kos");
+        var student = new Student("Anna", "Kos", Language.English);
 
         while (true)
         {
@@ -25,7 +30,16 @@ while (true)
             {
                 break;
             }
-            student.AddGrade(input);
+
+            try
+            {
+                student.AddGrade(input);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             Console.WriteLine("Add another grade:");
         }
 
@@ -35,16 +49,19 @@ while (true)
         Console.WriteLine($"Min: {statistics.Min}");
         Console.WriteLine($"Max: {statistics.Max}");
         Console.WriteLine(statistics.AverageWord);
+        Console.WriteLine();
+        Console.WriteLine("If you have finished adding grades and want to exit the journal, press 'q' one more time.");
     }
     else if (languageInput == "2")
     {
+        currentLanguage = "Polish";
         Console.WriteLine();
         Console.WriteLine("Witamy w dzienniku elektronicznym!");
         Console.WriteLine("==================================");
         Console.WriteLine();
         Console.WriteLine("Dodaj ocenę:");
 
-        var student = new Student("Anna", "Kos");
+        var student = new Student("Anna", "Kos", Language.Polish);
 
         while (true)
         {
@@ -53,7 +70,15 @@ while (true)
             {
                 break;
             }
-            student.AddGrade(input);
+            try
+            {
+                student.AddGrade(input);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             Console.WriteLine("Dodaj kolejną ocenę:");
         }
 
@@ -63,12 +88,21 @@ while (true)
         Console.WriteLine($"Min: {statistics.Min}");
         Console.WriteLine($"Max: {statistics.Max}");
         Console.WriteLine(statistics.AverageWord);
+        Console.WriteLine();
+        Console.WriteLine("Jeśli zakończyłeś dodawanie ocen i chcesz wyjść z dziennika, naciśnij jeszcze raz 'q'.");
     }
     else if (languageInput == "q")
     {
         Console.WriteLine();
-        Console.WriteLine("See you soon!");
-        Console.WriteLine("Do zobaczenia!");
+        if (currentLanguage == "English")
+        {
+            Console.WriteLine($"See you soon!");
+        }
+        else
+        {
+            Console.WriteLine($"Do zobaczenia!");
+        }
+        break;
     }
     else
     {

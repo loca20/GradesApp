@@ -1,12 +1,32 @@
 ﻿namespace GradesApp
 {
+    public enum Language
+    {
+        English,
+        Polish
+    }
+    public static class ErrorMessagesEnglish
+    {
+        public static string IncorrectGrade = "Incorrect grade. You can only add a grade from 1 to 6 or +/-.";
+        public static string IncorrectGradeMultiple = "Incorrect grade. You can only add a grade in multiples of 0.5 (for example: 4.5).";
+        public static string StringNotFloat = "This string is not a float.";
+    }
+
+    public static class ErrorMessagesPolish
+    {
+        public static string IncorrectGrade = "Nieprawidłowa ocena. Możesz dodać ocenę od 1 do 6 lub +/-.";
+        public static string IncorrectGradeMultiple = "Nieprawidłowa ocena. Możesz dodać ocenę tylko w wielokrotnościach 0.5 (na przykład: 4.5).";
+        public static string StringNotFloat = "Ten ciąg znaków nie jest liczbą rzeczywistą.";
+    }
     public class Student
     {
         private List<float> grades = new List<float>();
-        public Student(string name, string surname)
+        private Language language;
+        public Student(string name, string surname, Language language)
         {
             this.Name = name;
             this.Surname = surname;
+            this.language = language;
         }
         public string Name { get; private set; }
         public string Surname { get; private set; }
@@ -19,22 +39,11 @@
             }
             else
             {
-                Console.WriteLine("Incorrect grade. You can only add a grade from 1 to 6 or +/-.");
+                string errorMessage = (language == Language.Polish) ? ErrorMessagesPolish.IncorrectGrade : ErrorMessagesEnglish.IncorrectGrade;
+                throw new Exception(errorMessage);
             }
         }
-        public void AddGrade(double grade)
-        {
-            if (grade % 0.5 == 0)
-            {
-                float gradeAsFloat = (float)grade;
-                this.AddGrade(gradeAsFloat);
-            }
-            else
-            {
-                Console.WriteLine("Incorrect grade. You can only add a grade in multiples of 0.5 (for example: 4.5).");
-            }
-
-        }
+       
         public void AddGrade(string grade)
         {
             if (grade.Length == 2 && (grade[1] == '+' || grade[1] == '-'))
@@ -67,10 +76,11 @@
             }
             else
             {
-                Console.WriteLine("String is not float.");
+                string errorMessage = (language == Language.Polish) ? ErrorMessagesPolish.StringNotFloat : ErrorMessagesEnglish.StringNotFloat;
+                throw new Exception(errorMessage);
             }
         }
-     
+
         public Statistics GetStatistics()
         {
             var statistics = new Statistics();
@@ -85,8 +95,8 @@
                 statistics.Average += grade;
             }
             statistics.Average /= this.grades.Count;
-            
-            switch(statistics.Average)
+
+            switch (statistics.Average)
             {
                 case var average when average >= 5.61:
                     statistics.AverageWord = "celujący";
