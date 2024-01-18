@@ -7,16 +7,18 @@
     }
     public static class ErrorMessagesEnglish
     {
-        public static string IncorrectGrade = "Incorrect grade. You can only add a grade from 1 to 6 or +/-.";
+        public static string IncorrectGrade = "Incorrect grade. You can only add a grade from 1 to 6.";
         public static string IncorrectGradeMultiple = "Incorrect grade. You can only add a grade in multiples of 0.5 (for example: 4.5).";
         public static string StringNotFloat = "This string is not a float.";
+        public static string TooLowOrHighGrade = "There is no such grade. The lowest grade is 1 and the highest is 6.";
     }
 
     public static class ErrorMessagesPolish
     {
-        public static string IncorrectGrade = "Nieprawidłowa ocena. Możesz dodać ocenę od 1 do 6 lub +/-.";
+        public static string IncorrectGrade = "Nieprawidłowa ocena. Możesz dodać ocenę od 1 do 6.";
         public static string IncorrectGradeMultiple = "Nieprawidłowa ocena. Możesz dodać ocenę tylko w wielokrotnościach 0.5 (na przykład: 4.5).";
-        public static string StringNotFloat = "Ten ciąg znaków nie jest liczbą rzeczywistą.";
+        public static string StringNotFloat = "To nie jest liczba rzeczywista.";
+        public static string TooLowOrHighGrade = "Nie ma takiej oceny. Najniższą oceną jest 1, a najwyższą 6.";
     }
     public class Student
     {
@@ -43,31 +45,58 @@
                 throw new Exception(errorMessage);
             }
         }
-       
+
         public void AddGrade(string grade)
         {
             if (grade.Length == 2 && (grade[1] == '+' || grade[1] == '-'))
             {
-                switch (grade[1])
+                if (grade != "1-" && grade != "6+")
                 {
-                    case '+':
-                        this.grades.Add(float.Parse(grade[0].ToString()) + 0.5f);
-                        break;
-                    case '-':
-                        this.grades.Add(float.Parse(grade[0].ToString()) - 0.5f);
-                        break;
+                    switch (grade[1])
+                    {
+                        case '+':
+                            this.grades.Add(float.Parse(grade[0].ToString()) + 0.5f);
+                            break;
+                        case '-':
+                            this.grades.Add(float.Parse(grade[0].ToString()) - 0.5f);
+                            break;
+                    }
+                }
+                else if ((grade[0] == '+' || grade[0] == '-') && (grade != "-1" && grade != "+6"))
+                {
+                    switch (grade[0])
+                    {
+                        case '+':
+                            this.grades.Add(float.Parse(grade[1].ToString()) + 0.5f);
+                            break;
+                        case '-':
+                            this.grades.Add(float.Parse(grade[1].ToString()) - 0.5f);
+                            break;
+                    }
+                }
+                else
+                {
+                    string errorMessage = (language == Language.Polish) ? ErrorMessagesPolish.TooLowOrHighGrade : ErrorMessagesEnglish.TooLowOrHighGrade;
+                    throw new Exception(errorMessage);
                 }
             }
-            else if (grade.Length == 2 && (grade[0] == '+' || grade[0] == '-'))
+            else if (grade.Length == 3 && (grade.Contains(".") || grade.Contains(",")))
             {
-                switch (grade[0])
+                if(float.TryParse(grade[0].ToString(), out float firstDigit) && (firstDigit > 0 && firstDigit < 6))
                 {
-                    case '+':
-                        this.grades.Add(float.Parse(grade[1].ToString()) + 0.5f);
-                        break;
-                    case '-':
-                        this.grades.Add(float.Parse(grade[1].ToString()) - 0.5f);
-                        break;
+                    if (grade.Contains(".5") || grade.Contains(",5"))
+                    {
+                        this.grades.Add(float.Parse(grade[0].ToString()) + 0.5f);
+                    }
+                    else
+                    {
+                        string errorMessage = (language == Language.Polish) ? ErrorMessagesPolish.IncorrectGradeMultiple : ErrorMessagesEnglish.IncorrectGradeMultiple;
+                        throw new Exception(errorMessage);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("to jest to - od 1 do 6");
                 }
             }
             else if (float.TryParse(grade, out float result))

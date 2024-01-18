@@ -96,11 +96,16 @@ while (true)
         Console.WriteLine();
         if (currentLanguage == "English")
         {
-            Console.WriteLine($"See you soon!");
+            Console.WriteLine(farewellEnglish);
+        }
+        else if (currentLanguage == "Polish")
+        {
+            Console.WriteLine(farewellPolish);
         }
         else
         {
-            Console.WriteLine($"Do zobaczenia!");
+            Console.WriteLine(farewellEnglish);
+            Console.WriteLine(farewellPolish);
         }
         break;
     }
