@@ -15,11 +15,9 @@ while (true)
     if (languageInput == "1")
     {
         currentLanguage = "English";
-        Console.WriteLine();
-        Console.WriteLine("Welcome to the electronic journal!");
+        Console.WriteLine("\nWelcome to the electronic journal!");
         Console.WriteLine("==================================");
-        Console.WriteLine();
-        Console.WriteLine("Add a grade:");
+        Console.WriteLine("\nAdd a grade:");
 
         var student = new Student("Anna", "Kos", Language.English);
 
@@ -55,11 +53,9 @@ while (true)
     else if (languageInput == "2")
     {
         currentLanguage = "Polish";
-        Console.WriteLine();
-        Console.WriteLine("Witamy w dzienniku elektronicznym!");
+        Console.WriteLine("\nWitamy w dzienniku elektronicznym!");
         Console.WriteLine("==================================");
-        Console.WriteLine();
-        Console.WriteLine("Dodaj ocenę:");
+        Console.WriteLine("\nDodaj ocenę:");
 
         var student = new Student("Anna", "Kos", Language.Polish);
 
@@ -88,8 +84,7 @@ while (true)
         Console.WriteLine($"Min: {statistics.Min}");
         Console.WriteLine($"Max: {statistics.Max}");
         Console.WriteLine(statistics.AverageWord);
-        Console.WriteLine();
-        Console.WriteLine("Jeśli zakończyłeś dodawanie ocen i chcesz wyjść z dziennika, naciśnij jeszcze raz 'q'.");
+        Console.WriteLine("\nJeśli zakończyłeś dodawanie ocen i chcesz wyjść z dziennika, naciśnij jeszcze raz 'q'.");
     }
     else if (languageInput == "q")
     {
@@ -111,8 +106,7 @@ while (true)
     }
     else
     {
-        Console.WriteLine();
-        Console.WriteLine("Invalid character. You can only enter 1 or 2 or 'q'. Try again.");
+        Console.WriteLine("\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
         Console.WriteLine("Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
         Console.WriteLine("------------------------------------------------------------------------------------");
         Console.WriteLine(selectEnglish);
