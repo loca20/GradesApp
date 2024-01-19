@@ -9,17 +9,50 @@ string currentLanguage = "";
 string farewellEnglish = "See you soon!";
 string farewellPolish = "Do zobaczenia!";
 
+string nameOfStudent;
+string surnameOfStudent;
+
 while (true)
 {
     var languageInput = Console.ReadLine();
     if (languageInput == "1")
     {
         currentLanguage = "English";
-        Console.WriteLine("\nWelcome to the electronic journal!");
-        Console.WriteLine("==================================");
-        Console.WriteLine("\nAdd a grade:");
+        Console.WriteLine("\nWelcome to the electronic journal! \n================================== \n\nEnter the student`s name:");
 
         var student = new Student("Anna", "Kos", Language.English);
+
+        while (true)
+        {
+            nameOfStudent = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(nameOfStudent))
+            {
+                Console.WriteLine("\nEnter the student`s surname:");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("You didn't enter the student's name. Try again. \nEnter the student's name:");
+            }
+        }
+
+        while (true)
+        {
+            surnameOfStudent = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(surnameOfStudent))
+            {
+                nameOfStudent = char.ToUpper(nameOfStudent[0]) + nameOfStudent.Substring(1).ToLower();
+                surnameOfStudent = char.ToUpper(surnameOfStudent[0]) + surnameOfStudent.Substring(1).ToLower();
+                Console.WriteLine($"\nYou add grades for the student: {nameOfStudent} {surnameOfStudent}. Add grade:");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("You didn't enter the student's surname. Try again. \nEnter the student's surname:");
+            }
+        }
 
         while (true)
         {
@@ -28,17 +61,22 @@ while (true)
             {
                 break;
             }
-
-            try
+            else if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
-                student.AddGrade(input);
+                Console.WriteLine("You must enter a grade. You cannot leave the field blank. Add a rating:");
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
+                try
+                {
+                    student.AddGrade(input.Trim());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                Console.WriteLine("\nAdd another grade:");
             }
-
-            Console.WriteLine("Add another grade:");
         }
 
         var statistics = student.GetStatistics();
@@ -53,11 +91,41 @@ while (true)
     else if (languageInput == "2")
     {
         currentLanguage = "Polish";
-        Console.WriteLine("\nWitamy w dzienniku elektronicznym!");
-        Console.WriteLine("==================================");
-        Console.WriteLine("\nDodaj ocenę:");
+        Console.WriteLine("\nWitamy w dzienniku elektronicznym! \n================================== \n\nWpisz imię ucznia:");
 
         var student = new Student("Anna", "Kos", Language.Polish);
+
+        while (true)
+        {
+            nameOfStudent = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(nameOfStudent))
+            {
+                Console.WriteLine("\nWpisz nazwisko ucznia:");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Nie wpisałeś imienia ucznia. Spróbuj jeszcze raz. \nWpisz imię ucznia:");
+            }
+        }
+
+        while (true)
+        {
+            surnameOfStudent = Console.ReadLine();
+
+            if (!string.IsNullOrEmpty(surnameOfStudent))
+            {
+                nameOfStudent = char.ToUpper(nameOfStudent[0]) + nameOfStudent.Substring(1).ToLower();
+                surnameOfStudent = char.ToUpper(surnameOfStudent[0]) + surnameOfStudent.Substring(1).ToLower();
+                Console.WriteLine($"\nDodajesz oceny dla ucznia: {nameOfStudent} {surnameOfStudent}. Dodaj ocenę:");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Nie wpisałeś nazwiska ucznia. Spróbuj jeszcze raz. \nWpisz nazwisko ucznia:");
+            }
+        }
 
         while (true)
         {
@@ -66,16 +134,22 @@ while (true)
             {
                 break;
             }
-            try
+            else if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
-                student.AddGrade(input);
+                Console.WriteLine("Musisz wpisać ocenę. Nie możesz zostawić pustego pola. Dodaj ocenę:");
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
+                try
+                {
+                    student.AddGrade(input.Trim());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                Console.WriteLine("Dodaj kolejną ocenę:");
             }
-
-            Console.WriteLine("Dodaj kolejną ocenę:");
         }
 
         var statistics = student.GetStatistics();
@@ -108,7 +182,7 @@ while (true)
     {
         Console.WriteLine("\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
         Console.WriteLine("Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
-        Console.WriteLine("------------------------------------------------------------------------------------");
+        Console.WriteLine("------------------------------------------------------------------------------------\n");
         Console.WriteLine(selectEnglish);
         Console.WriteLine(selectPolish);
     }
