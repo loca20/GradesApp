@@ -48,7 +48,7 @@ while (true)
             else
             {
                 WriteLineColor(errorColor, "You didn't enter the student's name or you accidentally used a digit. Try again.");
-                Console.WriteLine(" Enter the student's name:");
+                Console.WriteLine("Enter the student's name:");
             }
         }
 
@@ -89,7 +89,7 @@ while (true)
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    WriteLineColor(errorColor, e.Message);
                 }
                 Console.WriteLine("\nAdd another grade:");
             }
@@ -164,7 +164,7 @@ while (true)
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    WriteLineColor(errorColor, e.Message);
                 }
                 Console.WriteLine("Dodaj kolejną ocenę:");
             }
