@@ -12,6 +12,20 @@ string farewellPolish = "Do zobaczenia!";
 string nameOfStudent;
 string surnameOfStudent;
 
+static void WriteLineColor(ConsoleColor color, string message)
+{
+    Console.ForegroundColor = color;
+    Console.WriteLine(message);
+    Console.ResetColor();
+}
+
+ConsoleColor errorColor = ConsoleColor.Red;
+
+static bool ContainsDigits(string input)
+{
+    return input.Any(char.IsDigit);
+}
+
 while (true)
 {
     var languageInput = Console.ReadLine();
@@ -24,24 +38,25 @@ while (true)
 
         while (true)
         {
-            nameOfStudent = Console.ReadLine();
+            nameOfStudent = Console.ReadLine().Trim();
 
-            if (!string.IsNullOrEmpty(nameOfStudent))
+            if (!string.IsNullOrEmpty(nameOfStudent) && !ContainsDigits(nameOfStudent))
             {
                 Console.WriteLine("\nEnter the student`s surname:");
                 break;
             }
             else
             {
-                Console.WriteLine("You didn't enter the student's name. Try again. \nEnter the student's name:");
+                WriteLineColor(errorColor, "You didn't enter the student's name or you accidentally used a digit. Try again.");
+                Console.WriteLine(" Enter the student's name:");
             }
         }
 
         while (true)
         {
-            surnameOfStudent = Console.ReadLine();
+            surnameOfStudent = Console.ReadLine().Trim();
 
-            if (!string.IsNullOrEmpty(surnameOfStudent))
+            if (!string.IsNullOrEmpty(surnameOfStudent) && !ContainsDigits(surnameOfStudent))
             {
                 nameOfStudent = char.ToUpper(nameOfStudent[0]) + nameOfStudent.Substring(1).ToLower();
                 surnameOfStudent = char.ToUpper(surnameOfStudent[0]) + surnameOfStudent.Substring(1).ToLower();
@@ -50,7 +65,8 @@ while (true)
             }
             else
             {
-                Console.WriteLine("You didn't enter the student's surname. Try again. \nEnter the student's surname:");
+                WriteLineColor(errorColor, "You didn't enter the student's surname or you accidentally used a digit. Try again.");
+                Console.WriteLine("Enter the student's surname:");
             }
         }
 
@@ -63,7 +79,7 @@ while (true)
             }
             else if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
-                Console.WriteLine("You must enter a grade. You cannot leave the field blank. Add a rating:");
+                WriteLineColor(errorColor, "You must enter a grade. You cannot leave the field blank. Add a rating:");
             }
             else
             {
@@ -97,24 +113,25 @@ while (true)
 
         while (true)
         {
-            nameOfStudent = Console.ReadLine();
+            nameOfStudent = Console.ReadLine().Trim();
 
-            if (!string.IsNullOrEmpty(nameOfStudent))
+            if (!string.IsNullOrEmpty(nameOfStudent) && !ContainsDigits(nameOfStudent))
             {
                 Console.WriteLine("\nWpisz nazwisko ucznia:");
                 break;
             }
             else
             {
-                Console.WriteLine("Nie wpisałeś imienia ucznia. Spróbuj jeszcze raz. \nWpisz imię ucznia:");
+                WriteLineColor(errorColor, "Nie wpisałeś imienia ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.");
+                Console.WriteLine( "Wpisz imię ucznia:");
             }
         }
 
         while (true)
         {
-            surnameOfStudent = Console.ReadLine();
+            surnameOfStudent = Console.ReadLine().Trim();
 
-            if (!string.IsNullOrEmpty(surnameOfStudent))
+            if (!string.IsNullOrEmpty(surnameOfStudent) && !ContainsDigits(surnameOfStudent))
             {
                 nameOfStudent = char.ToUpper(nameOfStudent[0]) + nameOfStudent.Substring(1).ToLower();
                 surnameOfStudent = char.ToUpper(surnameOfStudent[0]) + surnameOfStudent.Substring(1).ToLower();
@@ -123,7 +140,8 @@ while (true)
             }
             else
             {
-                Console.WriteLine("Nie wpisałeś nazwiska ucznia. Spróbuj jeszcze raz. \nWpisz nazwisko ucznia:");
+                WriteLineColor(errorColor, "Nie wpisałeś nazwiska ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.");
+                Console.WriteLine("Wpisz nazwisko ucznia:");
             }
         }
 
@@ -136,7 +154,7 @@ while (true)
             }
             else if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
-                Console.WriteLine("Musisz wpisać ocenę. Nie możesz zostawić pustego pola. Dodaj ocenę:");
+                WriteLineColor(errorColor, "Musisz wpisać ocenę. Nie możesz zostawić pustego pola. Dodaj ocenę:");
             }
             else
             {
@@ -180,8 +198,8 @@ while (true)
     }
     else
     {
-        Console.WriteLine("\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
-        Console.WriteLine("Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
+        WriteLineColor(errorColor, "\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
+        WriteLineColor(errorColor, "Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
         Console.WriteLine("------------------------------------------------------------------------------------\n");
         Console.WriteLine(selectEnglish);
         Console.WriteLine(selectPolish);
