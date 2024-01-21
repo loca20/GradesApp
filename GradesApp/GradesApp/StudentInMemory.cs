@@ -20,11 +20,12 @@
         public static string StringNotFloat = "To nie jest liczba rzeczywista.";
         public static string TooLowOrHighGrade = "Nie ma takiej oceny. Najniższą oceną jest 1, a najwyższą 6.";
     }
-    public class Student
+    public class StudentInMemory : StudentBase
     {
         private List<float> grades = new List<float>();
         private Language language;
-        public Student(string name, string surname, Language language)
+        public StudentInMemory(string name, string surname, Language language) 
+            : base(name, surname)
         {
             this.Name = name;
             this.Surname = surname;
@@ -32,8 +33,7 @@
         }
         public string Name { get; private set; }
         public string Surname { get; private set; }
-
-        public void AddGrade(float grade)
+        public override void AddGrade(float grade)
         {
             if (grade >= 1 && grade <= 6)
             {
@@ -46,7 +46,7 @@
             }
         }
 
-        public void AddGrade(string grade)
+        public override void AddGrade(string grade)
         {
             if (grade.Length == 2 && (grade[1] == '+' || grade[1] == '-'))
             {
@@ -62,7 +62,15 @@
                             break;
                     }
                 }
-                else if ((grade[0] == '+' || grade[0] == '-') && (grade != "-1" && grade != "+6"))
+                else
+                {
+                    string errorMessage = (language == Language.Polish) ? ErrorMessagesPolish.TooLowOrHighGrade : ErrorMessagesEnglish.TooLowOrHighGrade;
+                    throw new Exception(errorMessage);
+                }
+            }
+            else if (grade.Length == 2 && (grade[0] == '+' || grade[0] == '-'))
+            {
+                if (grade != "-1" && grade != "+6")
                 {
                     switch (grade[0])
                     {
@@ -79,10 +87,10 @@
                     string errorMessage = (language == Language.Polish) ? ErrorMessagesPolish.TooLowOrHighGrade : ErrorMessagesEnglish.TooLowOrHighGrade;
                     throw new Exception(errorMessage);
                 }
-            }
+            }  
             else if (grade.Length == 3 && (grade.Contains(".") || grade.Contains(",")))
             {
-                if(float.TryParse(grade[0].ToString(), out float firstDigit) && (firstDigit > 0 && firstDigit < 6))
+                if (float.TryParse(grade[0].ToString(), out float firstDigit) && (firstDigit > 0 && firstDigit < 6))
                 {
                     if (grade.Contains(".5") || grade.Contains(",5"))
                     {
@@ -110,7 +118,7 @@
             }
         }
 
-        public Statistics GetStatistics()
+        public override Statistics GetStatistics()
         {
             var statistics = new Statistics();
             statistics.Average = 0;

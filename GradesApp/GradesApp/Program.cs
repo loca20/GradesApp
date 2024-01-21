@@ -34,7 +34,7 @@ while (true)
         currentLanguage = "English";
         Console.WriteLine("\nWelcome to the electronic journal! \n================================== \n\nEnter the student`s name:");
 
-        var student = new Student("Anna", "Kos", Language.English);
+        var student = new StudentInMemory("Anna", "Kos", Language.English);
 
         while (true)
         {
@@ -91,7 +91,7 @@ while (true)
                 {
                     WriteLineColor(errorColor, e.Message);
                 }
-                Console.WriteLine("\nAdd another grade:");
+                Console.WriteLine("Add another grade:");
             }
         }
 
@@ -109,7 +109,7 @@ while (true)
         currentLanguage = "Polish";
         Console.WriteLine("\nWitamy w dzienniku elektronicznym! \n================================== \n\nWpisz imię ucznia:");
 
-        var student = new Student("Anna", "Kos", Language.Polish);
+        var student = new StudentInMemory("Anna", "Kos", Language.Polish);
 
         while (true)
         {
