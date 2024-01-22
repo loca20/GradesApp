@@ -3,7 +3,6 @@
     internal class StudentInFile : StudentBase
     {
         private const string fileName = "grades.txt";
-        private List<float> grades = new List<float>();
         private Language language;
         public StudentInFile(string name, string surname, Language language) 
             : base(name, surname)
@@ -36,10 +35,10 @@
                     switch (grade[1])
                     {
                         case '+':
-                            this.grades.Add(float.Parse(grade[0].ToString()) + 0.5f);
+                            this.AddGrade(float.Parse(grade[0].ToString()) + 0.5f);
                             break;
                         case '-':
-                            this.grades.Add(float.Parse(grade[0].ToString()) - 0.5f);
+                            this.AddGrade(float.Parse(grade[0].ToString()) - 0.5f);
                             break;
                     }
                 }
@@ -56,10 +55,10 @@
                     switch (grade[0])
                     {
                         case '+':
-                            this.grades.Add(float.Parse(grade[1].ToString()) + 0.5f);
+                            this.AddGrade(float.Parse(grade[1].ToString()) + 0.5f);
                             break;
                         case '-':
-                            this.grades.Add(float.Parse(grade[1].ToString()) - 0.5f);
+                            this.AddGrade(float.Parse(grade[1].ToString()) - 0.5f);
                             break;
                     }
                 }
@@ -75,7 +74,7 @@
                 {
                     if (grade.Contains(".5") || grade.Contains(",5"))
                     {
-                        this.grades.Add(float.Parse(grade[0].ToString()) + 0.5f);
+                        this.AddGrade(float.Parse(grade[0].ToString()) + 0.5f);
                     }
                     else
                     {
