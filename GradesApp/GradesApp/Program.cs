@@ -34,7 +34,7 @@ while (true)
         currentLanguage = "English";
         Console.WriteLine("\nWelcome to the electronic journal! \n================================== \n\nEnter the student`s name:");
 
-        var student = new StudentInMemory("Anna", "Kos", Language.English);
+        var student = new StudentInFile("Anna", "Kos", Language.English);
 
         while (true)
         {
@@ -109,7 +109,7 @@ while (true)
         currentLanguage = "Polish";
         Console.WriteLine("\nWitamy w dzienniku elektronicznym! \n================================== \n\nWpisz imię ucznia:");
 
-        var student = new StudentInMemory("Anna", "Kos", Language.Polish);
+        var student = new StudentInFile("Anna", "Kos", Language.Polish);
 
         while (true)
         {
