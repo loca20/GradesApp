@@ -34,7 +34,14 @@ while (true)
         currentLanguage = "English";
         Console.WriteLine("\nWelcome to the electronic journal! \n================================== \n\nEnter the student`s name:");
 
-        var student = new StudentInFile("Anna", "Kos", Language.English);
+        var student = new StudentInMemory("Anna", "Kos", Language.English);
+
+        student.GradeAdded += StudentGradeAdded;
+
+        void StudentGradeAdded(object sender, EventArgs args)
+        {
+            Console.WriteLine("A new grade has been added.");
+        }
 
         while (true)
         {
@@ -109,7 +116,14 @@ while (true)
         currentLanguage = "Polish";
         Console.WriteLine("\nWitamy w dzienniku elektronicznym! \n================================== \n\nWpisz imię ucznia:");
 
-        var student = new StudentInFile("Anna", "Kos", Language.Polish);
+        var student = new StudentInMemory("Anna", "Kos", Language.Polish);
+
+        student.GradeAdded += StudentGradeAdded;
+
+        void StudentGradeAdded(object sender, EventArgs args)
+        {
+            Console.WriteLine("Dodano nową ocenę.");
+        }
 
         while (true)
         {

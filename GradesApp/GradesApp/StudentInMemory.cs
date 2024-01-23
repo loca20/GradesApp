@@ -2,22 +2,26 @@
 {
     public class StudentInMemory : StudentBase
     {
+        public delegate string GradeAddedDelegate(object sender, EventArgs args);
+        public event GradeAddedDelegate GradeAdded;
+
         private List<float> grades = new List<float>();
         private Language language;
         public StudentInMemory(string name, string surname, Language language) 
             : base(name, surname)
         {
-            this.Name = name;
-            this.Surname = surname;
             this.language = language;
         }
-        public string Name { get; private set; }
-        public string Surname { get; private set; }
+        
         public override void AddGrade(float grade)
         {
             if (grade >= 1 && grade <= 6)
             {
                 this.grades.Add(grade);
+                if(GradeAdded != null)
+                {
+                    GradeAdded(this, new EventArgs());
+                }
             }
             else
             {
