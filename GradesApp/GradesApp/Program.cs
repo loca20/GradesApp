@@ -38,7 +38,7 @@ while (true)
 
         student.GradeAdded += StudentGradeAdded;
 
-        void StudentGradeAdded(object sender, EventArgs args)
+       void StudentGradeAdded(object sender, EventArgs args)
         {
             Console.WriteLine("A new grade has been added.");
         }
