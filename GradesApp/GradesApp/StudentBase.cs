@@ -24,6 +24,15 @@
     public abstract class StudentBase : IStudent
 
     {
+        public delegate void GradeAddedDelegate(object sender, EventArgs args);
+        public event GradeAddedDelegate GradeAdded;
+        public void GradeAddedInfoDelegate()
+        {
+            if (GradeAdded != null)
+            {
+                GradeAdded(this, new EventArgs());
+            }
+        }
         public StudentBase(string name, string surname)
         {
             this.Name = name;

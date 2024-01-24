@@ -20,6 +20,7 @@ static void WriteLineColor(ConsoleColor color, string message)
 }
 
 ConsoleColor errorColor = ConsoleColor.Red;
+ConsoleColor correctColor = ConsoleColor.DarkGreen;
 
 static bool ContainsDigits(string input)
 {
@@ -34,13 +35,13 @@ while (true)
         currentLanguage = "English";
         Console.WriteLine("\nWelcome to the electronic journal! \n================================== \n\nEnter the student`s name:");
 
-        var student = new StudentInMemory("Anna", "Kos", Language.English);
+        var student = new StudentInFile("Anna", "Kos", Language.English);
 
         student.GradeAdded += StudentGradeAdded;
 
        void StudentGradeAdded(object sender, EventArgs args)
         {
-            Console.WriteLine("A new grade has been added.");
+            WriteLineColor(correctColor, "A new grade has been added.");
         }
 
         while (true)
@@ -107,7 +108,7 @@ while (true)
         Console.WriteLine($"Average: {statistics.Average:N2}");
         Console.WriteLine($"Min: {statistics.Min}");
         Console.WriteLine($"Max: {statistics.Max}");
-        Console.WriteLine(statistics.AverageWord);
+        Console.WriteLine(statistics.AverageInWord);
         Console.WriteLine();
         Console.WriteLine("If you have finished adding grades and want to exit the journal, press 'q' one more time.");
     }
@@ -116,13 +117,13 @@ while (true)
         currentLanguage = "Polish";
         Console.WriteLine("\nWitamy w dzienniku elektronicznym! \n================================== \n\nWpisz imię ucznia:");
 
-        var student = new StudentInMemory("Anna", "Kos", Language.Polish);
+        var student = new StudentInFile("Anna", "Kos", Language.Polish);
 
         student.GradeAdded += StudentGradeAdded;
 
         void StudentGradeAdded(object sender, EventArgs args)
         {
-            Console.WriteLine("Dodano nową ocenę.");
+            WriteLineColor(correctColor, "Dodano nową ocenę.");
         }
 
         while (true)
@@ -189,7 +190,7 @@ while (true)
         Console.WriteLine($"Average: {statistics.Average:N2}");
         Console.WriteLine($"Min: {statistics.Min}");
         Console.WriteLine($"Max: {statistics.Max}");
-        Console.WriteLine(statistics.AverageWord);
+        Console.WriteLine(statistics.AverageInWord);
         Console.WriteLine("\nJeśli zakończyłeś dodawanie ocen i chcesz wyjść z dziennika, naciśnij jeszcze raz 'q'.");
     }
     else if (languageInput == "q")

@@ -4,7 +4,7 @@
     {
         private const string fileName = "grades.txt";
         private Language language;
-        public StudentInFile(string name, string surname, Language language) 
+        public StudentInFile(string name, string surname, Language language)
             : base(name, surname)
         {
             this.language = language;
@@ -17,6 +17,7 @@
                 using (var writer = File.AppendText(fileName))
                 {
                     writer.WriteLine(grade);
+                    GradeAddedInfoDelegate();
                 }
             }
             else
@@ -108,7 +109,8 @@
         private List<float> ReadGradesFromFile()
         {
             var grades = new List<float>();
-            if(File.Exists(fileName)) {
+            if (File.Exists(fileName))
+            {
                 using (var reader = File.OpenText(fileName))
                 {
                     var line = reader.ReadLine();
@@ -125,38 +127,10 @@
         private Statistics CountStatistics(List<float> grades)
         {
             var statistics = new Statistics();
-            statistics.Average = 0;
-            statistics.Max = float.MinValue;
-            statistics.Min = float.MaxValue;
-
+           
             foreach (var grade in grades)
             {
-                statistics.Max = Math.Max(statistics.Max, grade);
-                statistics.Min = Math.Min(statistics.Min, grade);
-                statistics.Average += grade;
-            }
-            statistics.Average /= grades.Count;
-
-            switch (statistics.Average)
-            {
-                case var average when average >= 5.61:
-                    statistics.AverageWord = "celujący";
-                    break;
-                case var average when average >= 4.76:
-                    statistics.AverageWord = "bardzo dobry";
-                    break;
-                case var average when average >= 3.76:
-                    statistics.AverageWord = "dobry";
-                    break;
-                case var average when average >= 2.76:
-                    statistics.AverageWord = "dostateczny";
-                    break;
-                case var average when average >= 1.76:
-                    statistics.AverageWord = "mierny";
-                    break;
-                default:
-                    statistics.AverageWord = "niedostateczny";
-                    break;
+                statistics.AddGrade(grade);
             }
 
             return statistics;

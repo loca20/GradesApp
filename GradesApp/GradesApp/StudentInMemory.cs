@@ -2,9 +2,6 @@
 {
     public class StudentInMemory : StudentBase
     {
-        public delegate void GradeAddedDelegate(object sender, EventArgs args);
-        public event GradeAddedDelegate GradeAdded;
-
         private List<float> grades = new List<float>();
         private Language language;
         public StudentInMemory(string name, string surname, Language language) 
@@ -18,10 +15,7 @@
             if (grade >= 1 && grade <= 6)
             {
                 this.grades.Add(grade);
-                if(GradeAdded != null)
-                {
-                    GradeAdded(this, new EventArgs());
-                }
+                GradeAddedInfoDelegate();
             }
             else
             {
@@ -105,38 +99,10 @@
         public override Statistics GetStatistics()
         {
             var statistics = new Statistics();
-            statistics.Average = 0;
-            statistics.Max = float.MinValue;
-            statistics.Min = float.MaxValue;
-
+           
             foreach (var grade in this.grades)
             {
-                statistics.Max = Math.Max(statistics.Max, grade);
-                statistics.Min = Math.Min(statistics.Min, grade);
-                statistics.Average += grade;
-            }
-            statistics.Average /= this.grades.Count;
-
-            switch (statistics.Average)
-            {
-                case var average when average >= 5.61:
-                    statistics.AverageWord = "celujący";
-                    break;
-                case var average when average >= 4.76:
-                    statistics.AverageWord = "bardzo dobry";
-                    break;
-                case var average when average >= 3.76:
-                    statistics.AverageWord = "dobry";
-                    break;
-                case var average when average >= 2.76:
-                    statistics.AverageWord = "dostateczny";
-                    break;
-                case var average when average >= 1.76:
-                    statistics.AverageWord = "mierny";
-                    break;
-                default:
-                    statistics.AverageWord = "niedostateczny";
-                    break;
+                statistics.AddGrade(grade);
             }
 
             return statistics;
