@@ -9,7 +9,7 @@
     {
         public static string IncorrectGrade = "Incorrect grade. You can only add a grade from 1 to 6.";
         public static string IncorrectGradeMultiple = "Incorrect grade. You can only add a grade in multiples of 0.5 (for example: 4.5).";
-        public static string StringNotFloat = "A letter has been entered. We enter grades only in the form of numbers from 1 to 6.";
+        public static string StringNotFloat = "A letter has been entered. We enter grades only as numbers from 1 to 6.";
         public static string TooLowOrHighGrade = "There is no such grade. The lowest grade is 1 and the highest is 6.";
     }
 

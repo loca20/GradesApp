@@ -1,65 +1,87 @@
 ﻿using GradesApp;
 
-string selectEnglish = "Please select language: press 1 for English or 2 for Polish. If you want to quit, press 'q'.";
-string selectPolish = "Proszę wybrać język: naciśnij 1 dla angielskiego lub 2 dla polskiego. Jeśli chcesz zamknąć dziennik naciśnij 'q'.";
-Console.WriteLine(selectEnglish);
-Console.WriteLine(selectPolish);
 
-string currentLanguage = "";
-string farewellEnglish = "See you soon!";
-string farewellPolish = "Do zobaczenia!";
-
-string nameOfStudent;
-string surnameOfStudent;
-
-static void WriteLineColor(ConsoleColor color, string message)
+class Program
 {
-    Console.ForegroundColor = color;
-    Console.WriteLine(message);
-    Console.ResetColor();
-}
+    static string selectEnglish = "Please select language: press 1 for English or 2 for Polish. If you want to quit, press 'q'.";
+    static string selectPolish = "Proszę wybrać język: naciśnij 1 dla angielskiego lub 2 dla polskiego. Jeśli chcesz zamknąć dziennik naciśnij 'q'.";
+    static string quitEnglish = "\nIf you have finished adding grades and want to exit the journal, press 'q' one more time.";
+    static string quitPolish = "\nJeśli zakończyłeś dodawanie ocen i chcesz wyjść z dziennika, naciśnij jeszcze raz 'q'.";
 
-ConsoleColor errorColor = ConsoleColor.Red;
-ConsoleColor correctColor = ConsoleColor.DarkGreen;
+    static string currentLanguage = "";
+    static string farewellEnglish = "\nSee you soon!";
+    static string farewellPolish = "\nDo zobaczenia!";
 
-static bool ContainsDigits(string input)
-{
-    return input.Any(char.IsDigit);
-}
+    static string nameOfStudent;
+    static string surnameOfStudent;
 
-while (true)
-{
-    var languageInput = Console.ReadLine();
-    if (languageInput == "1")
+    static StudentInFile student;
+
+    ConsoleColor errorColor = ConsoleColor.Red;
+    ConsoleColor correctColor = ConsoleColor.DarkGreen;
+
+    static void Main(string[] args)
     {
-        currentLanguage = "English";
-        Console.WriteLine("\nWelcome to the electronic journal! \n================================== \n\nEnter the student`s name:");
+        Console.WriteLine(selectEnglish);
+        Console.WriteLine(selectPolish);
 
-        var student = new StudentInFile("Anna", "Kos", Language.English);
-
-        student.GradeAdded += StudentGradeAdded;
-
-       void StudentGradeAdded(object sender, EventArgs args)
+        while (true)
         {
-            WriteLineColor(correctColor, "A new grade has been added.");
+            var languageInput = Console.ReadLine();
+            if (languageInput == "1" || languageInput == "2")
+            {
+                currentLanguage = (languageInput == "1") ? "English" : "Polish";
+                Console.WriteLine($"\n{(currentLanguage == "English" ? "Welcome to the electronic journal!" : "Witamy w dzienniku elektronicznym!")} \n==================================");
+                StudentData();
+            }
+            else if (languageInput == "q" || languageInput == "Q")
+            {
+                if (currentLanguage == "English")
+                {
+                    Console.WriteLine(farewellEnglish);
+                }
+                else if (currentLanguage == "Polish")
+                {
+                    Console.WriteLine(farewellPolish);
+                }
+                else
+                {
+                    Console.WriteLine($"{farewellEnglish} {farewellPolish}");
+                    
+                }
+                break;
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
+                Console.WriteLine("Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
+                //WriteLineColor(errorColor, "\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
+                //WriteLineColor(errorColor, "Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
+                Console.WriteLine("------------------------------------------------------------------------------------\n");
+                Console.WriteLine($"{selectEnglish} \n{selectPolish}");
+            }
         }
+    }
 
+    static void StudentData()
+    {
+        Console.WriteLine($"{(currentLanguage == "English" ? "\nEnter the student`s name:" : "\nWpisz imię ucznia:")}");
         while (true)
         {
             nameOfStudent = Console.ReadLine().Trim();
 
             if (!string.IsNullOrEmpty(nameOfStudent) && !ContainsDigits(nameOfStudent))
             {
-                Console.WriteLine("\nEnter the student`s surname:");
+                Console.WriteLine($"{(currentLanguage == "English" ? "\nEnter the student`s surname:" : "\nWpisz nazwisko ucznia:")}");
                 break;
             }
             else
             {
-                WriteLineColor(errorColor, "You didn't enter the student's name or you accidentally used a digit. Try again.");
-                Console.WriteLine("Enter the student's name:");
+                Console.WriteLine($"{(currentLanguage == "English" ? "\nYou didn't enter the student's name or you accidentally used a digit. Try again." : "\nNie wpisałeś imienia ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
+                //WriteLineColor(errorColor, "You didn't enter the student's name or you accidentally used a digit. Try again.");
+                Console.WriteLine($"{(currentLanguage == "English" ? "Enter the student's name:" : "Wpisz imię ucznia:")}");
             }
         }
-
         while (true)
         {
             surnameOfStudent = Console.ReadLine().Trim();
@@ -68,108 +90,42 @@ while (true)
             {
                 nameOfStudent = char.ToUpper(nameOfStudent[0]) + nameOfStudent.Substring(1).ToLower();
                 surnameOfStudent = char.ToUpper(surnameOfStudent[0]) + surnameOfStudent.Substring(1).ToLower();
-                Console.WriteLine($"\nYou add grades for the student: {nameOfStudent} {surnameOfStudent}. Add grade:");
+                Console.WriteLine($"{(currentLanguage == "English" ? $"\nYou add grades for the student: {nameOfStudent} {surnameOfStudent}. Add grade:" : $"\nDodajesz oceny dla ucznia: {nameOfStudent} {surnameOfStudent}. Dodaj ocenę:")}");
+                EnterGrade();
                 break;
             }
             else
             {
-                WriteLineColor(errorColor, "You didn't enter the student's surname or you accidentally used a digit. Try again.");
-                Console.WriteLine("Enter the student's surname:");
+                Console.WriteLine($"{(currentLanguage == "English" ? "You didn't enter the student's surname or you accidentally used a digit. Try again." : "Nie wpisałeś nazwiska ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
+                //WriteLineColor(errorColor, "You didn't enter the student's surname or you accidentally used a digit. Try again.");
+                Console.WriteLine($"{(currentLanguage == "English" ? "Enter the student's surname:" : "Wpisz nazwisko ucznia:")}");
             }
         }
 
-        while (true)
-        {
-            var input = Console.ReadLine();
-            if (input == "q")
-            {
-                break;
-            }
-            else if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
-            {
-                WriteLineColor(errorColor, "You must enter a grade. You cannot leave the field blank. Add a rating:");
-            }
-            else
-            {
-                try
-                {
-                    student.AddGrade(input.Trim());
-                }
-                catch (Exception e)
-                {
-                    WriteLineColor(errorColor, e.Message);
-                }
-                Console.WriteLine("Add another grade:");
-            }
-        }
-
-        var statistics = student.GetStatistics();
-
-        Console.WriteLine($"Average: {statistics.Average:N2}");
-        Console.WriteLine($"Min: {statistics.Min}");
-        Console.WriteLine($"Max: {statistics.Max}");
-        Console.WriteLine(statistics.AverageInWord);
-        Console.WriteLine();
-        Console.WriteLine("If you have finished adding grades and want to exit the journal, press 'q' one more time.");
     }
-    else if (languageInput == "2")
+
+    static void EnterGrade()
     {
-        currentLanguage = "Polish";
-        Console.WriteLine("\nWitamy w dzienniku elektronicznym! \n================================== \n\nWpisz imię ucznia:");
-
-        var student = new StudentInFile("Anna", "Kos", Language.Polish);
-
+        student = new StudentInFile("Anna", "Kos", currentLanguage == "English" ? Language.English : Language.Polish);
         student.GradeAdded += StudentGradeAdded;
 
         void StudentGradeAdded(object sender, EventArgs args)
         {
-            WriteLineColor(correctColor, "Dodano nową ocenę.");
+            //WriteLineColor(correctColor, "A new grade has been added.");
+            Console.WriteLine($"{(currentLanguage == "English" ? "A new grade has been added." : "Dodano nową ocenę.")}");
         }
-
-        while (true)
-        {
-            nameOfStudent = Console.ReadLine().Trim();
-
-            if (!string.IsNullOrEmpty(nameOfStudent) && !ContainsDigits(nameOfStudent))
-            {
-                Console.WriteLine("\nWpisz nazwisko ucznia:");
-                break;
-            }
-            else
-            {
-                WriteLineColor(errorColor, "Nie wpisałeś imienia ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.");
-                Console.WriteLine( "Wpisz imię ucznia:");
-            }
-        }
-
-        while (true)
-        {
-            surnameOfStudent = Console.ReadLine().Trim();
-
-            if (!string.IsNullOrEmpty(surnameOfStudent) && !ContainsDigits(surnameOfStudent))
-            {
-                nameOfStudent = char.ToUpper(nameOfStudent[0]) + nameOfStudent.Substring(1).ToLower();
-                surnameOfStudent = char.ToUpper(surnameOfStudent[0]) + surnameOfStudent.Substring(1).ToLower();
-                Console.WriteLine($"\nDodajesz oceny dla ucznia: {nameOfStudent} {surnameOfStudent}. Dodaj ocenę:");
-                break;
-            }
-            else
-            {
-                WriteLineColor(errorColor, "Nie wpisałeś nazwiska ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.");
-                Console.WriteLine("Wpisz nazwisko ucznia:");
-            }
-        }
-
         while (true)
         {
             var input = Console.ReadLine();
             if (input == "q")
             {
+                ShowStatistics();
                 break;
             }
             else if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
-                WriteLineColor(errorColor, "Musisz wpisać ocenę. Nie możesz zostawić pustego pola. Dodaj ocenę:");
+                //WriteLineColor(errorColor, "You must enter a grade. You cannot leave the field blank. Add a rating:");
+                Console.WriteLine($"{(currentLanguage == "English" ? "You must enter a grade. You cannot leave the field blank. Add a rating:" : "Musisz wpisać ocenę. Nie możesz zostawić pustego pola. Dodaj ocenę:")}");
             }
             else
             {
@@ -179,44 +135,34 @@ while (true)
                 }
                 catch (Exception e)
                 {
-                    WriteLineColor(errorColor, e.Message);
+                    //WriteLineColor(errorColor, e.Message);
+                    Console.WriteLine(e.Message);
                 }
-                Console.WriteLine("Dodaj kolejną ocenę:");
+                Console.WriteLine($"{(currentLanguage == "English" ? "Add another grade:" : "Dodaj kolejną ocenę:")}");
             }
         }
+    }
 
+    static void ShowStatistics()
+    {
         var statistics = student.GetStatistics();
 
-        Console.WriteLine($"Average: {statistics.Average:N2}");
+        Console.WriteLine($"\nAverage: {statistics.Average:N2}");
         Console.WriteLine($"Min: {statistics.Min}");
         Console.WriteLine($"Max: {statistics.Max}");
         Console.WriteLine(statistics.AverageInWord);
-        Console.WriteLine("\nJeśli zakończyłeś dodawanie ocen i chcesz wyjść z dziennika, naciśnij jeszcze raz 'q'.");
+        Console.WriteLine(currentLanguage == "English" ? quitEnglish : quitPolish);
     }
-    else if (languageInput == "q")
+
+    static void WriteLineColor(ConsoleColor color, string message)
     {
-        Console.WriteLine();
-        if (currentLanguage == "English")
-        {
-            Console.WriteLine(farewellEnglish);
-        }
-        else if (currentLanguage == "Polish")
-        {
-            Console.WriteLine(farewellPolish);
-        }
-        else
-        {
-            Console.WriteLine(farewellEnglish);
-            Console.WriteLine(farewellPolish);
-        }
-        break;
+        Console.ForegroundColor = color;
+        Console.WriteLine(message);
+        Console.ResetColor();
     }
-    else
+
+    static bool ContainsDigits(string input)
     {
-        WriteLineColor(errorColor, "\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
-        WriteLineColor(errorColor, "Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
-        Console.WriteLine("------------------------------------------------------------------------------------\n");
-        Console.WriteLine(selectEnglish);
-        Console.WriteLine(selectPolish);
+        return input.Any(char.IsDigit);
     }
 }
