@@ -17,8 +17,8 @@ class Program
 
     static StudentInFile student;
 
-    ConsoleColor errorColor = ConsoleColor.Red;
-    ConsoleColor correctColor = ConsoleColor.DarkGreen;
+    static ConsoleColor errorColor = ConsoleColor.Red;
+    static ConsoleColor correctColor = ConsoleColor.DarkGreen;
 
     static void Main(string[] args)
     {
@@ -53,10 +53,8 @@ class Program
             }
             else
             {
-                Console.WriteLine("\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
-                Console.WriteLine("Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
-                //WriteLineColor(errorColor, "\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
-                //WriteLineColor(errorColor, "Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
+                WriteLineColor(errorColor, "\nInvalid character. You can only enter 1 or 2 or 'q'. Try again.");
+                WriteLineColor(errorColor, "Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q'. Spróbuj ponownie.");
                 Console.WriteLine("------------------------------------------------------------------------------------\n");
                 Console.WriteLine($"{selectEnglish} \n{selectPolish}");
             }
@@ -77,8 +75,7 @@ class Program
             }
             else
             {
-                Console.WriteLine($"{(currentLanguage == "English" ? "\nYou didn't enter the student's name or you accidentally used a digit. Try again." : "\nNie wpisałeś imienia ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
-                //WriteLineColor(errorColor, "You didn't enter the student's name or you accidentally used a digit. Try again.");
+                WriteLineColor(errorColor, $"{(currentLanguage == "English" ? "\nYou didn't enter the student's name or you accidentally used a digit. Try again." : "\nNie wpisałeś imienia ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
                 Console.WriteLine($"{(currentLanguage == "English" ? "Enter the student's name:" : "Wpisz imię ucznia:")}");
             }
         }
@@ -96,8 +93,7 @@ class Program
             }
             else
             {
-                Console.WriteLine($"{(currentLanguage == "English" ? "You didn't enter the student's surname or you accidentally used a digit. Try again." : "Nie wpisałeś nazwiska ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
-                //WriteLineColor(errorColor, "You didn't enter the student's surname or you accidentally used a digit. Try again.");
+                WriteLineColor(errorColor, $"{(currentLanguage == "English" ? "You didn't enter the student's surname or you accidentally used a digit. Try again." : "Nie wpisałeś nazwiska ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
                 Console.WriteLine($"{(currentLanguage == "English" ? "Enter the student's surname:" : "Wpisz nazwisko ucznia:")}");
             }
         }
@@ -111,8 +107,7 @@ class Program
 
         void StudentGradeAdded(object sender, EventArgs args)
         {
-            //WriteLineColor(correctColor, "A new grade has been added.");
-            Console.WriteLine($"{(currentLanguage == "English" ? "A new grade has been added." : "Dodano nową ocenę.")}");
+            WriteLineColor(correctColor, $"{(currentLanguage == "English" ? "A new grade has been added." : "Dodano nową ocenę.")}");
         }
         while (true)
         {
@@ -124,8 +119,8 @@ class Program
             }
             else if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
-                //WriteLineColor(errorColor, "You must enter a grade. You cannot leave the field blank. Add a rating:");
-                Console.WriteLine($"{(currentLanguage == "English" ? "You must enter a grade. You cannot leave the field blank. Add a rating:" : "Musisz wpisać ocenę. Nie możesz zostawić pustego pola. Dodaj ocenę:")}");
+                WriteLineColor(errorColor, $"{(currentLanguage == "English" ? "You must enter a grade. You cannot leave the field blank." : "Musisz wpisać ocenę. Nie możesz zostawić pustego pola.")}");
+                Console.WriteLine($"{(currentLanguage == "English" ? "Add grade:" : "Dodaj ocenę:")}");
             }
             else
             {
@@ -135,8 +130,7 @@ class Program
                 }
                 catch (Exception e)
                 {
-                    //WriteLineColor(errorColor, e.Message);
-                    Console.WriteLine(e.Message);
+                    WriteLineColor(errorColor, e.Message);
                 }
                 Console.WriteLine($"{(currentLanguage == "English" ? "Add another grade:" : "Dodaj kolejną ocenę:")}");
             }
