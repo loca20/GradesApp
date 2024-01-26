@@ -2,6 +2,7 @@
 {
     public class Statistics
     {
+        internal Language language;
         public float Min { get; private set; }
         public float Max { get; private set; }
         public float Sum { get; private set; }
@@ -20,17 +21,17 @@
                 switch (this.Average)
                 {
                     case var average when average >= 5.61:
-                        return "celujący";
+                        return (language == Language.English) ? "excellent" : "celujący";
                     case var average when average >= 4.76:
-                        return "bardzo dobry";
+                        return (language == Language.English) ? "very good" : "bardzo dobry";
                     case var average when average >= 3.76:
-                        return "dobry";
+                        return (language == Language.English) ? "good" : "dobry";
                     case var average when average >= 2.76:
-                        return "dostateczny";
+                        return (language == Language.English) ? "satisfactory" : "dostateczny";
                     case var average when average >= 1.76:
-                        return "mierny";
+                        return (language == Language.English) ? "needs improvement" : "mierny";
                     default:
-                        return "niedostateczny";
+                        return (language == Language.English) ? "fail" : "niedostateczny";
                 }
             }
         }

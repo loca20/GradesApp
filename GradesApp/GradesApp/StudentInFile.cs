@@ -2,12 +2,13 @@
 {
     internal class StudentInFile : StudentBase
     {
-        private const string fileName = "grades.txt";
+        private string fileName;
         private Language language;
-        public StudentInFile(string name, string surname, Language language)
+        public StudentInFile(string name, string surname, Language language, string fileName)
             : base(name, surname)
         {
             this.language = language;
+            this.fileName = fileName;
         }
 
         public override void AddGrade(float grade)
@@ -103,6 +104,7 @@
         {
             var gradesFromFile = this.ReadGradesFromFile();
             var result = this.CountStatistics(gradesFromFile);
+            result.language = this.language;
             return result;
         }
 
