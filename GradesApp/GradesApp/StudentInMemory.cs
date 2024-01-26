@@ -99,7 +99,8 @@
         public override Statistics GetStatistics()
         {
             var statistics = new Statistics();
-           
+            statistics.language = this.language;
+
             foreach (var grade in this.grades)
             {
                 statistics.AddGrade(grade);
