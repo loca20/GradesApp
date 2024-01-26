@@ -15,9 +15,9 @@
             Assert.AreNotEqual(student1, student2);
         }
 
-        private Student GetStudent(string name, string surname)
+        private StudentInMemory GetStudent(string name, string surname)
         {
-            return new Student(name, surname);
+            return new StudentInMemory(name, surname, Language.English);
         }
     }
 }

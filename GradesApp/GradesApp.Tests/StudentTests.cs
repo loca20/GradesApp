@@ -6,7 +6,7 @@
         public void CheckMaxValue()
         {
             // arrange
-            var student = new Student("Basia", "Makowska");
+            var student = new StudentInMemory("Basia", "Makowska", Language.English);
             student.AddGrade(4);
             student.AddGrade(5);
             student.AddGrade(3);
@@ -21,7 +21,7 @@
         public void CheckMinValue()
         {
             // arrange
-            var student = new Student("Basia", "Makowska");
+            var student = new StudentInMemory("Basia", "Makowska", Language.English);
             student.AddGrade(4);
             student.AddGrade(5);
             student.AddGrade(3);
@@ -36,7 +36,7 @@
         public void CheckAverageValue()
         {
             // arrange
-            var student = new Student("Basia", "Makowska");
+            var student = new StudentInMemory("Basia", "Makowska", Language.English);
             student.AddGrade(4);
             student.AddGrade(5);
             student.AddGrade(3);
