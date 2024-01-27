@@ -10,12 +10,14 @@
             this.language = language;
         }
         
-        public override void AddGrade(float grade)
+              public override void AddGrade(float grade)
         {
             if (grade >= 1 && grade <= 6)
             {
-                this.grades.Add(grade);
-                GradeAddedInfoDelegate();
+                
+                   this.grades.Add(grade);
+                    GradeAddedInfoDelegate();
+                
             }
             else
             {
@@ -33,10 +35,10 @@
                     switch (grade[1])
                     {
                         case '+':
-                            this.grades.Add(float.Parse(grade[0].ToString()) + 0.5f);
+                            this.AddGrade(float.Parse(grade[0].ToString()) + 0.5f);
                             break;
                         case '-':
-                            this.grades.Add(float.Parse(grade[0].ToString()) - 0.5f);
+                            this.AddGrade(float.Parse(grade[0].ToString()) - 0.5f);
                             break;
                     }
                 }
@@ -53,10 +55,10 @@
                     switch (grade[0])
                     {
                         case '+':
-                            this.grades.Add(float.Parse(grade[1].ToString()) + 0.5f);
+                            this.AddGrade(float.Parse(grade[1].ToString()) + 0.5f);
                             break;
                         case '-':
-                            this.grades.Add(float.Parse(grade[1].ToString()) - 0.5f);
+                            this.AddGrade(float.Parse(grade[1].ToString()) - 0.5f);
                             break;
                     }
                 }
@@ -65,14 +67,14 @@
                     string errorMessage = (language == Language.Polish) ? ErrorMessagesPolish.TooLowOrHighGrade : ErrorMessagesEnglish.TooLowOrHighGrade;
                     throw new Exception(errorMessage);
                 }
-            }  
+            }
             else if (grade.Length == 3 && (grade.Contains(".") || grade.Contains(",")))
             {
                 if (float.TryParse(grade[0].ToString(), out float firstDigit) && (firstDigit > 0 && firstDigit < 6))
                 {
                     if (grade.Contains(".5") || grade.Contains(",5"))
                     {
-                        this.grades.Add(float.Parse(grade[0].ToString()) + 0.5f);
+                        this.AddGrade(float.Parse(grade[0].ToString()) + 0.5f);
                     }
                     else
                     {
