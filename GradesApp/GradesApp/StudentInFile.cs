@@ -129,7 +129,7 @@
         private Statistics CountStatistics(List<float> grades)
         {
             var statistics = new Statistics();
-           
+
             foreach (var grade in grades)
             {
                 statistics.AddGrade(grade);

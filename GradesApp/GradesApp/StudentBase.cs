@@ -37,7 +37,7 @@
         {
             this.Name = name;
             this.Surname = surname;
-           
+
         }
         public string Name { get; private set; }
         public string Surname { get; private set; }

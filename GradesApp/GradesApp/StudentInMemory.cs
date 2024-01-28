@@ -4,20 +4,20 @@
     {
         private List<float> grades = new List<float>();
         private Language language;
-        public StudentInMemory(string name, string surname, Language language) 
+        public StudentInMemory(string name, string surname, Language language)
             : base(name, surname)
         {
             this.language = language;
         }
-        
-              public override void AddGrade(float grade)
+
+        public override void AddGrade(float grade)
         {
             if (grade >= 1 && grade <= 6)
             {
-                
-                   this.grades.Add(grade);
-                    GradeAddedInfoDelegate();
-                
+
+                this.grades.Add(grade);
+                GradeAddedInfoDelegate();
+
             }
             else
             {

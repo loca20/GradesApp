@@ -4,8 +4,6 @@ class Program
 {
     static string selectEnglish = "Please select language: press 1 for English or 2 for Polish. If you want to quit, press 'q'.";
     static string selectPolish = "Proszę wybrać język: naciśnij 1 dla angielskiego lub 2 dla polskiego. Jeśli chcesz zamknąć dziennik naciśnij 'q'.";
-    static string quitEnglish = "\nIf you have completely finished adding grades and want to exit the journal, press 'q' one more time.";
-    static string quitPolish = "\nJeśli całkowicie zakończyłeś dodawanie ocen i chcesz wyjść z dziennika, naciśnij jeszcze raz 'q'.";
     static string optionsEnglish = "- press 1 to save the grades to the .txt file " +
         "\n- press 2 to store the grades in program memory \n- press 'q' to close the journal \n- if you want to go back to the language selection, press 'x'";
     static string optionsPolish = "- naciśnij 1 aby zapisać oceny do pliku .txt " +
@@ -25,6 +23,7 @@ class Program
     static ConsoleColor correctColor = ConsoleColor.DarkGreen;
     static ConsoleColor welcomeColor = ConsoleColor.DarkYellow;
     static ConsoleColor optionsColor = ConsoleColor.DarkGray;
+    static ConsoleColor studentResultColor = ConsoleColor.DarkCyan;
 
 
     static void Main(string[] args)
@@ -32,14 +31,21 @@ class Program
         Console.WriteLine(selectEnglish);
         Console.WriteLine(selectPolish);
 
+        ChooseLanguage();
+    }
+
+    static void ChooseLanguage()
+    {
         while (true)
         {
             var languageInput = Console.ReadLine();
             if (languageInput == "1" || languageInput == "2")
             {
                 currentLanguage = (languageInput == "1") ? "English" : "Polish";
-                WriteLineColor(welcomeColor, $"\n{(currentLanguage == "English" ? "Welcome to the electronic journal!" : "Witamy w dzienniku elektronicznym!")} \n==================================");
+                WriteLineColor(welcomeColor, $"\n{(currentLanguage == "English" ? "Welcome to the electronic journal!" : "Witamy w dzienniku elektronicznym!")} " +
+                    $"\n==================================");
                 HowToSaveGrades();
+                break;
             }
             else if (languageInput == "q" || languageInput == "Q")
             {
@@ -54,7 +60,6 @@ class Program
                 else
                 {
                     Console.WriteLine($"{farewellEnglish} {farewellPolish}");
-
                 }
                 break;
             }
@@ -67,19 +72,22 @@ class Program
             }
         }
     }
-
     static void HowToSaveGrades()
     {
-        WriteLineColor(optionsColor, $"\n{(currentLanguage == "English" ? "How would you like to store your added grades?\n" + optionsEnglish : "Jak chcesz przechowywać dodane oceny?\n" + optionsPolish)}");
+        WriteLineColor(optionsColor, $"\n{(currentLanguage == "English" ? "How would you like to store your added grades?\n" + optionsEnglish :
+            "Jak chcesz przechowywać dodane oceny?\n" + optionsPolish)}");
         while (true)
         {
             var saveGrades = Console.ReadLine();
             if (saveGrades == "1" || saveGrades == "2")
             {
                 saveGradesMethod = saveGrades == "1" ? "StudentInFile" : "StudentInMemory";
-                var selectedOption = saveGradesMethod == "StudentInFile" ? ($"{(currentLanguage == "English" ? "You have selected to save grades in a file." : "Wybrano zapis ocen w pliku.")}") : ($"{(currentLanguage == "English" ? "You have selected to save grades in program memory." : "Wybrano zapis ocen w pamięci programu.")}");
+                var selectedOption = saveGradesMethod == "StudentInFile" ? ($"{(currentLanguage == "English" ? "You have selected to save grades in a file." :
+                    "Wybrano zapis ocen w pliku.")}") : ($"{(currentLanguage == "English" ? "You have selected to save grades in program memory." :
+                    "Wybrano zapis ocen w pamięci programu.")}\n");
                 WriteLineColor(correctColor, $"\n{selectedOption}");
-                StudentData();
+                StudentName();
+                break;
             }
             else if (saveGrades == "q" || saveGrades == "Q")
             {
@@ -91,20 +99,15 @@ class Program
                 Console.WriteLine();
                 Console.WriteLine(selectEnglish);
                 Console.WriteLine(selectPolish);
-                break;
+                ChooseLanguage();
             }
             else
             {
-                WriteLineColor(errorColor, $"\n{(currentLanguage == "English" ? "Invalid character. You can only enter 1 or 2 or 'q' or 'x'. Try again." : "Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q' lub 'x'. Spróbuj ponownie.")}");
+                WriteLineColor(errorColor, $"\n{(currentLanguage == "English" ? "Invalid character. You can only enter 1 or 2 or 'q' or 'x'. Try again." :
+                    "Wprowadzono nieprawidłowy znak. Możesz wprowadzić jedynie 1 lub 2 lub 'q' lub 'x'. Spróbuj ponownie.")}");
                 Console.WriteLine($"{(currentLanguage == "English" ? optionsEnglish : optionsPolish)}");
             };
         }
-    }
-
-    static void StudentData()
-    {
-        StudentName();
-        StudentSurname();
     }
 
     static void StudentName()
@@ -125,7 +128,8 @@ class Program
             }
             else
             {
-                WriteLineColor(errorColor, $"{(currentLanguage == "English" ? "\nYou didn't enter the student's name or you accidentally used a digit. Try again." : "\nNie wpisałeś imienia ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
+                WriteLineColor(errorColor, $"{(currentLanguage == "English" ? "\nYou didn't enter the student's name or you accidentally used a digit. " +
+                    "Try again." : "\nNie wpisałeś imienia ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
                 Console.WriteLine($"{(currentLanguage == "English" ? "Enter the student's name:" : "Wpisz imię ucznia:")}");
             }
         }
@@ -139,11 +143,11 @@ class Program
             surnameOfStudent = Console.ReadLine().Trim();
 
             if (surnameOfStudent == "q" || surnameOfStudent == "Q")
-                {
-                    CloseApp();
-                    break;
-                }
-                else if (!string.IsNullOrEmpty(surnameOfStudent) && !ContainsDigits(surnameOfStudent))
+            {
+                CloseApp();
+                break;
+            }
+            else if (!string.IsNullOrEmpty(surnameOfStudent) && !ContainsDigits(surnameOfStudent))
             {
                 nameOfStudent = char.ToUpper(nameOfStudent[0]) + nameOfStudent.Substring(1).ToLower();
                 surnameOfStudent = char.ToUpper(surnameOfStudent[0]) + surnameOfStudent.Substring(1).ToLower();
@@ -157,20 +161,22 @@ class Program
                     student = new StudentInMemory(nameOfStudent, surnameOfStudent, currentLanguage == "English" ? Language.English : Language.Polish);
                 }
 
-                Console.WriteLine($"{(currentLanguage == "English" ? $"\nYou add grades for the student: {nameOfStudent} {surnameOfStudent}. Add grade:" : $"\nDodajesz oceny dla ucznia: {nameOfStudent} {surnameOfStudent}. Dodaj ocenę:")}");
+                Console.WriteLine($"{(currentLanguage == "English" ? $"\nYou add grades for the student: {nameOfStudent} {surnameOfStudent}. Add grade:" :
+                    $"\nDodajesz oceny dla ucznia: {nameOfStudent} {surnameOfStudent}. Dodaj ocenę:")}");
                 EnterGrade();
                 break;
             }
             else
             {
-                WriteLineColor(errorColor, $"{(currentLanguage == "English" ? "You didn't enter the student's surname or you accidentally used a digit. Try again." : "Nie wpisałeś nazwiska ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
+                WriteLineColor(errorColor, $"{(currentLanguage == "English" ? "You didn't enter the student's surname or you accidentally used a digit. " +
+                    "Try again." : "Nie wpisałeś nazwiska ucznia lub przypadkowo użyłeś cyfry. Spróbuj jeszcze raz.")}");
                 Console.WriteLine($"{(currentLanguage == "English" ? "Enter the student's surname:" : "Wpisz nazwisko ucznia:")}");
             }
         }
     }
     static void EnterGrade()
     {
-            student.GradeAdded += StudentGradeAdded;
+        student.GradeAdded += StudentGradeAdded;
 
         void StudentGradeAdded(object sender, EventArgs args)
         {
@@ -178,6 +184,7 @@ class Program
         }
         while (true)
         {
+
             var input = Console.ReadLine();
             if (input == "q" || input == "Q")
             {
@@ -186,7 +193,8 @@ class Program
             }
             else if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
             {
-                WriteLineColor(errorColor, $"{(currentLanguage == "English" ? "You must enter a grade. You cannot leave the field blank." : "Musisz wpisać ocenę. Nie możesz zostawić pustego pola.")}");
+                WriteLineColor(errorColor, $"{(currentLanguage == "English" ? "You must enter a grade. You cannot leave the field blank." : "Musisz wpisać ocenę. " +
+                    "Nie możesz zostawić pustego pola.")}");
                 Console.WriteLine($"{(currentLanguage == "English" ? "Add grade:" : "Dodaj ocenę:")}");
             }
             else
@@ -199,7 +207,8 @@ class Program
                 {
                     WriteLineColor(errorColor, e.Message);
                 }
-                Console.WriteLine($"{(currentLanguage == "English" ? "Add another grade. If you have finished adding grades, press 'q':" : "Dodaj kolejną ocenę. Jeśli zakończyłeś dodawanie ocen wciśnij 'q':")}");
+                Console.WriteLine($"{(currentLanguage == "English" ? "Add another grade. If you have finished adding grades, press 'q':" : "Dodaj kolejną ocenę. " +
+                    "Jeśli zakończyłeś dodawanie ocen wciśnij 'q':")}");
             }
         }
     }
@@ -208,16 +217,21 @@ class Program
     {
         var statistics = student.GetStatistics();
 
-        Console.WriteLine($"\n{(currentLanguage == "English" ? "Average" : "Średnia")}: {statistics.Average:N2}");
+        WriteLineColor(studentResultColor, $"\n\n{(currentLanguage == "English" ? $"Student's results: {nameOfStudent} {surnameOfStudent}" : $"Wyniki ucznia: {nameOfStudent} {surnameOfStudent}")}:\n");
+        Console.WriteLine($"{(currentLanguage == "English" ? "Average" : "Średnia")}: {statistics.Average:N2}");
         Console.WriteLine($"{(currentLanguage == "English" ? "Lowest grade" : "Najniższa ocena")}: {statistics.Min}");
         Console.WriteLine($"{(currentLanguage == "English" ? "Highest grade" : "Najwyższa ocena")}: {statistics.Max}");
         Console.WriteLine($"{(currentLanguage == "English" ? "Final grade" : "Ocena końcowa")}: {statistics.AverageInWord}");
-        Console.WriteLine(currentLanguage == "English" ? quitEnglish : quitPolish);
+        GoodBye();
     }
 
-    static void CloseApp()
+    static void GoodBye()
     {
         Console.WriteLine(currentLanguage == "English" ? farewellEnglish : farewellPolish);
+    }
+    static void CloseApp()
+    {
+        GoodBye();
         Environment.Exit(0);
     }
     static void WriteLineColor(ConsoleColor color, string message)
