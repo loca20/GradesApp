@@ -231,7 +231,6 @@ class Program
             Console.WriteLine($"{(currentLanguage == "English" ? "Lowest grade" : "Najniższa ocena")}: {statistics.Min}");
             Console.WriteLine($"{(currentLanguage == "English" ? "Highest grade" : "Najwyższa ocena")}: {statistics.Max}");
             Console.WriteLine($"{(currentLanguage == "English" ? "Final grade" : "Ocena końcowa")}: {statistics.AverageInWord}");
-
         }
 
         GoodBye();
