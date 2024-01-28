@@ -217,11 +217,23 @@ class Program
     {
         var statistics = student.GetStatistics();
 
-        WriteLineColor(studentResultColor, $"\n\n{(currentLanguage == "English" ? $"Student's results: {nameOfStudent} {surnameOfStudent}" : $"Wyniki ucznia: {nameOfStudent} {surnameOfStudent}")}:\n");
-        Console.WriteLine($"{(currentLanguage == "English" ? "Average" : "Średnia")}: {statistics.Average:N2}");
-        Console.WriteLine($"{(currentLanguage == "English" ? "Lowest grade" : "Najniższa ocena")}: {statistics.Min}");
-        Console.WriteLine($"{(currentLanguage == "English" ? "Highest grade" : "Najwyższa ocena")}: {statistics.Max}");
-        Console.WriteLine($"{(currentLanguage == "English" ? "Final grade" : "Ocena końcowa")}: {statistics.AverageInWord}");
+        if (statistics.Count == 0)
+        {
+            WriteLineColor(errorColor, $"\n\n{(currentLanguage == "English" ? $"Unfortunately, statistics cannot be displayed because no grades have " +
+                $"been added for student {nameOfStudent} {surnameOfStudent} yet:" : $"Niestety statystyki nie mogą zostać wyświetlone, ponieważ nie dodano " +
+                $"jeszcze żadnych ocen dla ucznia {nameOfStudent} {surnameOfStudent}: ")}");
+        }
+        else
+        {
+            WriteLineColor(studentResultColor, $"\n\n{(currentLanguage == "English" ? $"Student's results: {nameOfStudent} {surnameOfStudent} based on " +
+            $"{statistics.Count} added grades" : $"Wyniki ucznia: {nameOfStudent} {surnameOfStudent} na podstawie {statistics.Count} wprowadzonych ocen")}:\n");
+            Console.WriteLine($"{(currentLanguage == "English" ? "Average" : "Średnia")}: {statistics.Average:N2}");
+            Console.WriteLine($"{(currentLanguage == "English" ? "Lowest grade" : "Najniższa ocena")}: {statistics.Min}");
+            Console.WriteLine($"{(currentLanguage == "English" ? "Highest grade" : "Najwyższa ocena")}: {statistics.Max}");
+            Console.WriteLine($"{(currentLanguage == "English" ? "Final grade" : "Ocena końcowa")}: {statistics.AverageInWord}");
+
+        }
+
         GoodBye();
     }
 
