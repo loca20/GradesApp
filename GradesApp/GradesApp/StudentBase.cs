@@ -5,24 +5,7 @@
         English,
         Polish
     }
-    public static class ErrorMessagesEnglish
-    {
-        public static string IncorrectGrade = "Incorrect grade. You can only add a grade from 1 to 6.";
-        public static string IncorrectGradeMultiple = "Incorrect grade. You can only add a grade in multiples of 0.5 or 0,5 (for example: 4.5 or 4,5).";
-        public static string StringNotFloat = "A letter has been entered. We enter grades only as numbers from 1 to 6.";
-        public static string TooLowOrHighGrade = "There is no such grade. The lowest grade is 1 and the highest is 6.";
-    }
-
-    public static class ErrorMessagesPolish
-    {
-        public static string IncorrectGrade = "Nieprawidłowa ocena. Możesz dodać ocenę od 1 do 6.";
-        public static string IncorrectGradeMultiple = "Nieprawidłowa ocena. Możesz dodać ocenę tylko w wielokrotnościach 0.5 lub 0,5 (na przykład: 4.5 lub 4,5).";
-        public static string StringNotFloat = "Została wprowadzona litera. Oceny wprowadzamy tylko w formie cyfr od 1 do 6.";
-        public static string TooLowOrHighGrade = "Nie ma takiej oceny. Najniższą oceną jest 1, a najwyższą 6.";
-    }
-
     public abstract class StudentBase : IStudent
-
     {
         public delegate void GradeAddedDelegate(object sender, EventArgs args);
         public event GradeAddedDelegate GradeAdded;
@@ -33,16 +16,91 @@
                 GradeAdded(this, new EventArgs());
             }
         }
-        public StudentBase(string name, string surname)
+
+        private Language language;
+        public StudentBase(string name, string surname, Language language)
         {
             this.Name = name;
             this.Surname = surname;
-
+            this.language = language;
         }
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public abstract void AddGrade(float grade);
         public abstract void AddGrade(string grade);
         public abstract Statistics GetStatistics();
+
+        public void ValidateStringGrade(string grade)
+        {
+            if (grade.Length == 2 && (grade[1] == '+' || grade[1] == '-'))
+            {
+                if (grade != "1-" && grade != "6+")
+                {
+                    switch (grade[1])
+                    {
+                        case '+':
+                            this.AddGrade(float.Parse(grade[0].ToString()) + 0.5f);
+                            break;
+                        case '-':
+                            this.AddGrade(float.Parse(grade[0].ToString()) - 0.5f);
+                            break;
+                    }
+                }
+                else
+                {
+                    string errorMessage = (language == Language.Polish) ? StaticVariable.ErrorMessages.Polish.TooLowOrHighGrade : StaticVariable.ErrorMessages.English.TooLowOrHighGrade;
+                    throw new Exception(errorMessage);
+                }
+            }
+            else if (grade.Length == 2 && (grade[0] == '+' || grade[0] == '-'))
+            {
+                if (grade != "-1" && grade != "+6")
+                {
+                    switch (grade[0])
+                    {
+                        case '+':
+                            this.AddGrade(float.Parse(grade[1].ToString()) + 0.5f);
+                            break;
+                        case '-':
+                            this.AddGrade(float.Parse(grade[1].ToString()) - 0.5f);
+                            break;
+                    }
+                }
+                else
+                {
+                    string errorMessage = (language == Language.Polish) ? StaticVariable.ErrorMessages.Polish.TooLowOrHighGrade : StaticVariable.ErrorMessages.English.TooLowOrHighGrade;
+                    throw new Exception(errorMessage);
+                }
+            }
+            else if (grade.Length == 3 && (grade.Contains(".") || grade.Contains(",")))
+            {
+                if (float.TryParse(grade[0].ToString(), out float firstDigit) && (firstDigit > 0 && firstDigit < 6))
+                {
+                    if (grade.Contains(".5") || grade.Contains(",5"))
+                    {
+                        this.AddGrade(float.Parse(grade[0].ToString()) + 0.5f);
+                    }
+                    else
+                    {
+                        string errorMessage = (language == Language.Polish) ? StaticVariable.ErrorMessages.Polish.IncorrectGradeMultiple : StaticVariable.ErrorMessages.English.IncorrectGradeMultiple;
+                        throw new Exception(errorMessage);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("to jest to - od 1 do 6");
+                }
+            }
+            else if (float.TryParse(grade, out float result))
+            {
+                this.AddGrade(result);
+            }
+            else
+            {
+                string errorMessage = (language == Language.Polish) ? StaticVariable.ErrorMessages.Polish.StringNotFloat : StaticVariable.ErrorMessages.English.StringNotFloat;
+                throw new Exception(errorMessage);
+            }
+        }
+
     }
 }
